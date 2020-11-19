@@ -86,7 +86,7 @@ function bancard_push_update( $transient ){
  
         $remote = json_decode( $remote['body'] );
  
-        if( $remote && version_compare( '1.3', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
+        if( $remote && version_compare( '1.3.1', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
             $res = new stdClass();
             $res->slug = 'bancard-payment';
             $res->plugin = 'bancard-payment/bancard-payment.php';
@@ -364,6 +364,7 @@ if ($token['response']['code'] == 200) {
                             return;
                         }
                         else {
+                            wp_delete_post($order_id,true);
                             wc_add_notice("Hubo un error al procesar el pago y no fue realizada ninguna transacción. Favor intente hacer una nueva compra, en caso de persistencia póngase en contacto con nosotros. {$order->get_order_number()}", 'error');
                             if (curl_exec($ch) === false) {
                                 error_log('Curl error: ' . curl_error($ch));
