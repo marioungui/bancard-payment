@@ -219,7 +219,7 @@ function catastro_init_gateway_class() {
             $result = curl_exec($ch);
             $resultado = json_decode($result,true);
 
-            if ($resultado['confirmation']['response'] == "S") {
+            if (isset($resultado['confirmation']) && $resultado['confirmation']['response'] == "S") {
                 if ($resultado['confirmation']['response_code'] == "00") {
                     $order->payment_complete();
                     $order->reduce_order_stock();         
@@ -231,30 +231,26 @@ function catastro_init_gateway_class() {
                     );
                 }
                 else {
-                    return array(
-                        'result' => 'success',
-                        'redirect' => $this->get_return_url( $order )
-                    );
-                    wc_add_notice("Error al procesar pago. {$resultado['confirmation']['response_description']}. {$resultado['confirmation']['extended_response_description']}", 'error');
+                    wc_add_notice("Su tarjeta ha sido rechazada por la entidad de pago. {$resultado['confirmation']['response_description']}", 'error');
+                    error_log(print_r($resultado,true));
                     wp_delete_post($order_id,true);
                 }
             }
             else if ($resultado['status'] == "error") {
-                if (!empty($resultado['messages']['dsc'])) {
-                    return array(
-                        'result' => 'success',
-                        'redirect' => $this->get_return_url( $order )
-                    );
-                    wc_add_notice("Error al procesar el pago. {$resultado['messages']['dsc']}", 'error');
+                if (!empty($resultado['messages'][0]['dsc'])) {
+                    wc_add_notice("Hubo un error al procesar el pago. {$resultado['messages'][0]['dsc']}", 'error');
                     $order->update_status('failed', 'Error al procesar el pago.');
                     wp_delete_post($order_id,true);
+                    return array(
+                        'result' => 'failed',
+                        'redirect' => $this->get_return_url( $order )
+                    );
                 }
             }
             else {
                 wc_add_notice("Error al procesar pago. No se efectuó ninguna transacción en tu tarjeta de crédito/débito.", 'error');
                 wp_delete_post($order_id,true);
             }
-
         }
 
         public function process_refund($order_id, $amount = null, $reason = '') {
