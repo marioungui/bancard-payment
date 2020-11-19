@@ -234,6 +234,7 @@ function catastro_init_gateway_class() {
                     wc_add_notice("Su tarjeta ha sido rechazada por la entidad de pago. {$resultado['confirmation']['response_description']}", 'error');
                     error_log(print_r($resultado,true));
                     wp_delete_post($order_id,true);
+                    return false;
                 }
             }
             else if ($resultado['status'] == "error") {
