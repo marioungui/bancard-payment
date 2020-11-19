@@ -28,7 +28,7 @@ function bancard_plugin_info( $res, $action, $args ) {
             ) )
         );
         if ( ! is_wp_error( $remote ) && isset( $remote['response']['code'] ) && $remote['response']['code'] == 200 && ! empty( $remote['body'] ) ) {
-            set_transient( 'bancard_update' . $plugin_slug, $remote, 43200 ); // 12 hours cache
+            set_transient( 'bancard_update' . $plugin_slug, $remote, 86400 ); // a day cache
         }
     }
     if( ! is_wp_error( $remote ) && isset( $remote['response']['code'] ) && $remote['response']['code'] == 200 && ! empty( $remote['body'] ) ) {
@@ -146,22 +146,9 @@ if ($token['body'] == "Sitio no existente") {
 if ($token['response']['code'] == 200) {
     if( $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256']) ) {
         if ($decoded->end_time > time()) {
-
-            // Declares a new tab in My Account to enable "My Cards" section.
-            // 1. Register new endpoint to use for My Account page
-            // Note: Resave Permalinks or it will give 404 error
-              
-
-              
-
-              
-            
-
+        
             require_once "zimple-payment.php";
             require_once "cat.php";
-
-
-            // Note: add_action must follow 'woocommerce_account_{your-endpoint-slug}_endpoint' format
 
 
             add_filter('woocommerce_payment_gateways', 'bancard_add_gateway_class');
@@ -415,7 +402,7 @@ if ($token['response']['code'] == 200) {
                         }
                     }
 
-                    function btn_pago_bancard($button_text) {
+                    public function btn_pago_bancard($button_text) {
                         define('BANCARD_VAULT', true);
                         $button_text = 'Proceder al pago';
                         return $button_text;   
