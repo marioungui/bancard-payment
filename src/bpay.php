@@ -364,7 +364,6 @@ if ($token['response']['code'] == 200) {
                             return;
                         }
                         else {
-                            wp_delete_post($order_id,true);
                             wc_add_notice("Hubo un error al procesar el pago y no fue realizada ninguna transacción. Favor intente hacer una nueva compra, en caso de persistencia póngase en contacto con nosotros. {$order->get_order_number()}", 'error');
                             if (curl_exec($ch) === false) {
                                 error_log('Curl error: ' . curl_error($ch));
