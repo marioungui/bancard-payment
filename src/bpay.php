@@ -86,7 +86,7 @@ function bancard_push_update( $transient ){
  
         $remote = json_decode( $remote['body'] );
  
-        if( $remote && version_compare( '1.3.1', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
+        if( $remote && version_compare( '1.3.2', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
             $res = new stdClass();
             $res->slug = 'bancard-payment';
             $res->plugin = 'bancard-payment/bancard-payment.php';
