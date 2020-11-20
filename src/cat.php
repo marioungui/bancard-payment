@@ -379,182 +379,19 @@ function catastro_init_gateway_class() {
 
     function bancard_mis_tarjetas_content() {
         echo '<h3 style="text-align:center;">'.__('Administrar mis tarjetas','bancard-payment').'</h3>';
-        ?>
-        <style>
-            .bancard-boxes {
-                display: table;
-                width: auto;
-                margin-left: auto;
-                margin-right: auto;
-                padding: 20px 0;
-            }
-            .bancard-box {
-                width: 170px;
-                display: inline;
-                margin: 10px;
-                float: left;
-                padding: 10px;
-                border: 1px #b0b0b0 solid;
-                border-radius: 10px;
-            }
-            .card-icon {
-                width: 30px;
-                display: inline;
-            }
-            .card-icon img, .card-icon svg {
-                display: table;
-                max-width:100%;
-                margin-left:auto;
-                margin-right:auto;
-            }
-            .bancard-box span.text{
-                text-align: center;
-                display:inherit;
-            }
-        </style>
-        <div class="bancard-boxes">
-            <a href="?action=get_cards">
-                <div class="bancard-box bboxrojo">
-                    <div class="card-icon"><img src="https://img.icons8.com/fluent/96/000000/bank-card-back-side.png"/></div>
-                    <span class="text">Listar mis tarjetas</span>
-                </div>
-            </a>
-           <a href="?action=add_card">
-                <div class="bancard-box bboxrojo">
-                    <div class="card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="96" height="96" viewBox="0 0 171 171" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99654v-171.99654h171.99654v171.99654z" fill="none" stroke="none"></path><g id="original-icon" fill="#2ecc71" stroke="none" opacity="0" visibility="hidden"><path d="M23.94,30.78c-9.405,0 -17.1,7.695 -17.1,17.1v75.24c0,9.405 7.695,17.1 17.1,17.1h123.12c9.405,0 17.1,-7.695 17.1,-17.1v-75.24c0,-9.405 -7.695,-17.1 -17.1,-17.1zM23.94,37.62h123.12c5.70445,0 10.26,4.55555 10.26,10.26v6.84h-143.64v-6.84c0,-5.70445 4.55555,-10.26 10.26,-10.26zM13.68,71.82h143.64v51.3c0,5.70445 -4.55555,10.26 -10.26,10.26h-123.12c-5.70445,0 -10.26,-4.55555 -10.26,-10.26zM30.78,82.08v6.84h54.72v-6.84z"></path></g><g id="subtracted-icon" fill="#2ecc71" stroke="none"><path d="M147.06,30.78c9.405,0 17.1,7.695 17.1,17.1l0,58.39614c-2.09806,-1.88359 -4.38958,-3.55544 -6.84,-4.98101v-29.47514h-143.64v51.3c0,5.70445 4.55555,10.26 10.26,10.26l71.96223,0c-0.09419,1.12805 -0.14223,2.26869 -0.14223,3.42c0,1.15131 0.04805,2.29195 0.14223,3.42l-71.96223,0c-9.405,0 -17.1,-7.695 -17.1,-17.1v-75.24c0,-9.405 7.695,-17.1 17.1,-17.1zM13.68,47.88v6.84h143.64v-6.84c0,-5.70445 -4.55555,-10.26 -10.26,-10.26h-123.12c-5.70445,0 -10.26,4.55555 -10.26,10.26zM85.5,82.08v6.84h-54.72v-6.84z"></path></g><g stroke="none"><g id="Layer_9" fill="#2ecc71"><path d="M136.8,102.6c-18.81,0 -34.2,15.39 -34.2,34.2c0,18.81 15.39,34.2 34.2,34.2c18.81,0 34.2,-15.39 34.2,-34.2c0,-18.81 -15.39,-34.2 -34.2,-34.2zM153.558,140.22h-13.338v13.338c0,2.052 -1.368,3.42 -3.42,3.42c-2.052,0 -3.42,-1.368 -3.42,-3.42v-13.338h-13.338c-2.052,0 -3.42,-1.368 -3.42,-3.42c0,-2.052 1.368,-3.42 3.42,-3.42h13.338v-13.68c0,-2.052 1.368,-3.42 3.42,-3.42c2.052,0 3.42,1.368 3.42,3.42v13.68h13.338c2.052,0 3.42,1.368 3.42,3.42c0,2.052 -1.368,3.42 -3.42,3.42z"></path></g><g fill="#000000" opacity="0"><g id="IOS" font-family="Inter, sans-serif" font-weight="400" font-size="16" text-anchor="start" visibility="hidden"></g><g id="IOS_copy"><path d="M136.8,95.76c-22.572,0 -41.04,18.468 -41.04,41.04c0,22.572 18.468,41.04 41.04,41.04c22.572,0 41.04,-18.468 41.04,-41.04c0,-22.572 -18.468,-41.04 -41.04,-41.04z"></path></g></g></g><path d="M102.6,171v-68.4h68.4v68.4z" id="overlay-drag" fill="#ff0000" stroke="none" opacity="0"></path></g></svg>
-                    </div>
-                    <span class="text">Agregar nueva tarjeta</span>
-                </div>
-            </a>
-            <a href="?action=delete_card">
-                <div class="bancard-box bboxrojo">
-                    <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="96" height="96" viewBox="0 0 171 171" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99654v-171.99654h171.99654v171.99654z" fill="none" stroke="none"></path><g id="original-icon" fill="#e74c3c" stroke="none" opacity="0" visibility="hidden"><path d="M23.94,30.78c-9.405,0 -17.1,7.695 -17.1,17.1v75.24c0,9.405 7.695,17.1 17.1,17.1h123.12c9.405,0 17.1,-7.695 17.1,-17.1v-75.24c0,-9.405 -7.695,-17.1 -17.1,-17.1zM23.94,37.62h123.12c5.70445,0 10.26,4.55555 10.26,10.26v6.84h-143.64v-6.84c0,-5.70445 4.55555,-10.26 10.26,-10.26zM13.68,71.82h143.64v51.3c0,5.70445 -4.55555,10.26 -10.26,10.26h-123.12c-5.70445,0 -10.26,-4.55555 -10.26,-10.26zM30.78,82.08v6.84h54.72v-6.84z"></path></g><g id="subtracted-icon" fill="#e74c3c" stroke="none"><path d="M147.06,30.78c9.405,0 17.1,7.695 17.1,17.1l0,58.39614c-2.09806,-1.88359 -4.38958,-3.55544 -6.84,-4.98101v-29.47514h-143.64v51.3c0,5.70445 4.55555,10.26 10.26,10.26l71.96223,0c-0.09419,1.12805 -0.14223,2.26869 -0.14223,3.42c0,1.15131 0.04805,2.29195 0.14223,3.42l-71.96223,0c-9.405,0 -17.1,-7.695 -17.1,-17.1v-75.24c0,-9.405 7.695,-17.1 17.1,-17.1zM13.68,47.88v6.84h143.64v-6.84c0,-5.70445 -4.55555,-10.26 -10.26,-10.26h-123.12c-5.70445,0 -10.26,4.55555 -10.26,10.26zM85.5,82.08v6.84h-54.72v-6.84z"></path></g><g stroke="none"><g id="Layer_9" fill="#e41c1c"><path d="M136.8,102.6c-18.81,0 -34.2,15.39 -34.2,34.2c0,18.81 15.39,34.2 34.2,34.2c18.81,0 34.2,-15.39 34.2,-34.2c0,-18.81 -15.39,-34.2 -34.2,-34.2zM151.164,146.376c1.368,1.368 1.368,3.42 0,4.788c-0.684,0.684 -1.71,1.026 -2.394,1.026c-0.684,0 -1.71,-0.342 -2.394,-1.026l-9.576,-9.576l-9.576,9.576c-0.684,0.684 -1.71,1.026 -2.394,1.026c-0.684,0 -1.71,-0.342 -2.394,-1.026c-1.368,-1.368 -1.368,-3.42 0,-4.788l9.576,-9.576l-9.576,-9.576c-1.368,-1.368 -1.368,-3.42 0,-4.788c1.368,-1.368 3.42,-1.368 4.788,0l9.576,9.576l9.576,-9.576c1.368,-1.368 3.42,-1.368 4.788,0c1.368,1.368 1.368,3.42 0,4.788l-9.576,9.576z"></path></g><g fill="#000000" opacity="0"><g id="IOS" font-family="Inter, sans-serif" font-weight="400" font-size="16" text-anchor="start" visibility="hidden"></g><g id="IOS_copy"><path d="M136.8,95.76c-22.572,0 -41.04,18.468 -41.04,41.04c0,22.572 18.468,41.04 41.04,41.04c22.572,0 41.04,-18.468 41.04,-41.04c0,-22.572 -18.468,-41.04 -41.04,-41.04z"></path></g></g></g><path d="M102.6,171v-68.4h68.4v68.4z" id="overlay-drag" fill="#ff0000" stroke="none" opacity="0"></path></g></svg></div>
-                    <span class="text">Eliminar tarjeta</span>
-                </div>
-            </a>
-        </div>
-        <?php
+
+        echo file_get_contents(plugins_url('../assets/cards.html', __FILE__));
+
         if (isset($_GET['action']) && $_GET['action'] == "get_cards") {
-            $Bcatastro = new WC_Catastro_Gateway;
-            /*
-            <p>User ID: '.get_current_user_id().'</p>
-            <p>Public Key: '.$this->publishable_key.'</p>
-            <p>Private Key: '.$this->private_key.'</p>
-            */
-            $unhash = $Bcatastro->private_key.get_current_user_id()."request_user_cards";
-            $hash = hash("sha256",$unhash);
-
-            $args = [
-            "public_key" => $Bcatastro->publishable_key,
-            "operation" => ["token" => $hash]
-            ];
-
-            $url = $Bcatastro->catastro_endpoint . "/vpos/api/0.3/users/".get_current_user_id()."/cards";
-            $ch = curl_init($url);
-            $payload = json_encode($args,JSON_PRETTY_PRINT);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type:application/json'
-            ));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            $resultado = json_decode($result,true);
-
-            if ($resultado['status'] == "success") {
-                if (empty($resultado['cards'])) {
-                    echo "<p>No se registró ninguna tarjeta en su cuenta. Asegúrese de cargarlo correctamente en su perfil ubicada en la sección \"Mi Cuenta\"</p>";
-                }
-                else {
-                    ?>
-                    <table>
-                        <tr>
-                            <th>Marca:</th>
-                            <th>Número:</th>
-                            <th>Vencimiento:</th>
-                            <th>Tipo:</th>
-                            <th colspan="1">Acción</th>
-                        </tr>
-                        <?php
-                        foreach ($resultado['cards'] as $tarjeta => $valor) {
-                            $url = $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'] . explode('?', $_SERVER['REQUEST_URI'], 2)[0]."?action=delete_card&cardid={$valor['card_id']}&ctoken={$valor['alias_token']}";
-                            if ($valor['card_type'] == "credit") {
-                                $valor['card_type'] = "Tarj. Crédito";
-                            }
-                            if ($valor['card_type'] == "debit") {
-                                $valor['card_type'] = "Tarj. Débito";
-                            }
-                            echo "<tr>";
-                            echo "<td>{$valor['card_brand']}</td>";
-                            echo "<td>{$valor['card_masked_number']}</td>";
-                            echo "<td>{$valor['expiration_date']}</td>";
-                            echo "<td>{$valor['card_type']}</td>";
-                            echo "<td><a href=\"{$url}\"><button>Eliminar Tarjeta</button></a></td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </table>
-                    <?php
-                    //print_r($resultado['cards']);
-                }
-            }
-
+            require "get_cards.php";
         }
+
         else if (isset($_GET['action']) && $_GET['action'] == "add_card") {
-            $Bcatastro = new WC_Catastro_Gateway;
-
-            $cardid = $Bcatastro->generate_card_ID(get_current_user_id());
-            $user_phone = get_user_meta( get_current_user_id(), 'billing_phone', true );
-            $user_email = get_userdata( get_current_user_id(), 'user_email', true )->user_email;
-            /*
-            <p>User ID: '.get_current_user_id().'</p>
-            <p>Public Key: '.$Bcatastro->publishable_key.'</p>
-            <p>Private Key: '.$Bcatastro->private_key.'</p>
-            */
-            $unhash = $Bcatastro->private_key.$cardid.get_current_user_id()."request_new_card";
-            $hash = hash("sha256",$unhash);
-            $url = $Bcatastro->catastro_endpoint . "/vpos/api/0.3/cards/new";
-
-
-            $args = [
-            "public_key" => $Bcatastro->publishable_key,
-            "operation" => [
-                "token" => $hash,
-                "card_id" => $cardid,
-                "user_id" => get_current_user_id(),
-                "user_cell_phone" => $user_phone,
-                "user_mail" => $user_email,
-                "return_url" => $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'] . explode('?', $_SERVER['REQUEST_URI'], 2)[0]."?action=added_card&bcid={$cardid}"
-            ]];
-
-
-            $ch = curl_init($url);
-            $payload = json_encode($args,JSON_PRETTY_PRINT);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type:application/json'
-            ));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $result = curl_exec($ch);
-            $resultado = json_decode($result,true);
-
-
-            if ($resultado['status'] == "success") {
-
-                $script = $Bcatastro->testmode ? plugin_dir_url( __FILE__ )."../bancard-checkout-dev.js" : plugin_dir_url( __FILE__ )."../bancard-checkout.js";
-
-                ?>
-                <script src="<?= $script ?>"></script>
-                <script>
-                    window.onload = function () {
-                        Bancard.Cards.createForm('bancard-catastro', "<?=$resultado['process_id']?>")};
-                </script>
-                <div id="bancard-catastro"></div>
-                <?php
-            }
-
+            require "add_cards.php";
         }
+
         else if (isset($_GET['action']) && $_GET['action'] == "added_card") {
+
             $Bcatastro = new WC_Catastro_Gateway;
             if (isset($_GET['status'])) {
                 if ($_GET['status'] == "add_new_card_fail") {
@@ -570,6 +407,7 @@ function catastro_init_gateway_class() {
                 }
             }
         }
+
         else if (isset($_GET['action']) && $_GET['action'] == "delete_card" && isset($_GET['cardid']) && is_numeric($_GET['cardid']) && isset($_GET['ctoken'])) {
 
             $Bcatastro = new WC_Catastro_Gateway;

@@ -11,8 +11,8 @@
 */
 
 add_filter('plugins_api', 'bancard_plugin_info', 20, 3);
-function bancard_plugin_info( $res, $action, $args ) {
-     if( 'plugin_information' !== $action ) {
+function bancard_plugin_info( $res, $action, $args )  {
+    if( 'plugin_information' !== $action ) {
         return false;
     }
  
@@ -102,7 +102,9 @@ function bancard_push_update( $transient ){
 }
 
 use \Firebase\JWT\JWT;
+
 $token = get_transient( 'bancard-api-token_bancard-payment' );
+
 if(!$token) {
     $token = wp_remote_get("https://emedos.com.py/bancard-update/gen.php?domain={$_SERVER['SERVER_NAME']}", array(
         'timeout' => 10
@@ -112,10 +114,13 @@ if(!$token) {
         set_transient( 'bancard-api-token_bancard-payment', $token, 86400 ); // Day Cache
     }
 }
+
 else {
     $token = get_transient('bancard-api-token_bancard-payment');
 }
+
 $publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) 
+
 if(!$publicKey) {
     $publicKey = wp_remote_get("https://emedos.com.py/bancard-update/publico.pub", array(
         'timeout' => 10
