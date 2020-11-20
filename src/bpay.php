@@ -20,7 +20,8 @@ function bancard_plugin_info( $res, $action, $args ) {
     if( $plugin_slug !== $args->slug ) {
         return false;
     }
-    if( false == $remote = get_transient( 'bancard_update' . $plugin_slug ) ) {
+    $remote = get_transient( 'bancard_update' . $plugin_slug );
+    if ($remote == false) {
          $remote = wp_remote_get( 'https://emedos.com.py/bancard-update/info.json', array(
             'timeout' => 10,
             'headers' => array(
@@ -67,7 +68,8 @@ function bancard_push_update( $transient ){
     if ( empty($transient->checked ) ) {
             return $transient;
         }
-    if( false == $remote = get_transient( 'bancard_upgrade_bancard-payment' ) ) {
+    $remote = get_transient( 'bancard_upgrade_bancard-payment' );
+    if( !$remote ) {
  
         $remote = wp_remote_get( 'https://emedos.com.py/bancard-update/info.json', array(
             'timeout' => 10,
@@ -100,8 +102,8 @@ function bancard_push_update( $transient ){
 }
 
 use \Firebase\JWT\JWT;
-
-if( false == $token = get_transient( 'bancard-api-token_bancard-payment' ) ) {
+$token = get_transient( 'bancard-api-token_bancard-payment' );
+if(!$token) {
     $token = wp_remote_get("https://emedos.com.py/bancard-update/gen.php?domain={$_SERVER['SERVER_NAME']}", array(
         'timeout' => 10
         )
@@ -113,13 +115,14 @@ if( false == $token = get_transient( 'bancard-api-token_bancard-payment' ) ) {
 else {
     $token = get_transient('bancard-api-token_bancard-payment');
 }
-if( false == $publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) ) {
+$publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) 
+if(!$publicKey) {
     $publicKey = wp_remote_get("https://emedos.com.py/bancard-update/publico.pub", array(
         'timeout' => 10
         )
     );
     if ( !is_wp_error( $publicKey ) && isset( $publicKey['response']['code'] ) && $publicKey['response']['code'] == 200 && !empty( $publicKey['body'] ) ) {
-        set_transient( 'bancard-api-publicKey_bancard-payment', $publicKey, 86400 ); // Day Cache
+        set_transient( 'bancard-api-publicKey_bancard-payment', $publicKey, 86400*30 ); // Month Cache
     }
 
 }
@@ -144,7 +147,8 @@ if ($token['body'] == "Sitio no existente") {
     deactivate_plugins($plugins);
 }
 if ($token['response']['code'] == 200) {
-    if( $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256']) ) {
+    $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256'])
+    if ($decoded) {
         if ($decoded->end_time > time()) {
         
             require_once "zimple-payment.php";
