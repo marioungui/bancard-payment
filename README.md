@@ -2,6 +2,8 @@
 
 ![Bancard Gateway para WooCommerce](https://emedos.com.py/bancard-update/banner-772x250.jpg)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/marioungui/bancard-payment/badge?s=27707d6223b13a0cf0e243555b0be5715721fed6)](https://www.codefactor.io/repository/github/marioungui/bancard-payment)
+
 Aceptá pagos en tu comercio a través de tarjetas de crédito o débito y billetera Zimple.
 
 # Novedades
