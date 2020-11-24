@@ -27,7 +27,8 @@ function catastro_init_gateway_class() {
             $this->method_description = 'Acepte pagos vía tarjeta de crédito o débito en 1 sólo click';
             $this->supports = array(
                 'products',
-                'refunds'
+                'refunds',
+                'subscriptions'
             );
             $this->init_form_fields();
             $this->init_settings();
@@ -43,6 +44,7 @@ function catastro_init_gateway_class() {
                 $this,
                 'process_admin_options'
             ));
+            add_action('scheduled_subscription_payment_'.$this->id,array($this,"process_subscription_payment"));
 
         }
 
@@ -163,15 +165,31 @@ function catastro_init_gateway_class() {
                             $card_brand = "mastercard";
                         }
                         $imgcard = plugin_dir_url( __FILE__ )."../assets/credit-cards/".$card_brand.".png";
-                        echo '<div class="bancard-card-box form-row"><input type="radio" id="card-'.$valor["card_id"].'" class="bancard-nmasked" name="bancard-ntoken" id="bancard-nmasked" value="'.$valor['alias_token'].'"><img class="bancard-cardbrand" src="'.$imgcard.'"><label for="card-'.$valor["card_id"].'" class="bancard-nmaskednumber">'.chunk_split($valor['card_masked_number'],4,' ').'</label>
+                        echo '<div class="bancard-card-box form-row" id="bancard-card-box"><input type="radio" id="card-'.$valor["card_id"].'" class="bancard-nmasked" name="bancard-ntoken" value="'.$valor['alias_token'].'"><img class="bancard-cardbrand" src="'.$imgcard.'"><label for="card-'.$valor["card_id"].'" class="bancard-nmaskednumber">'.chunk_split($valor['card_masked_number'],4,' ').'</label>
                         <span class="bancard-cardvenc">Venc.</span>
                         <span class="bancard-cardvencinfo">08/21</span></div>';
                     }
+                    echo '<input type="hidden" value="" name="bancard_card-id">';
                 }
             }
 
             do_action('woocommerce_credit_card_form_end', $this->id);
 
+        }
+
+        function process_subscription_payment($order,$amount) {
+
+        }
+
+        function scheduled_subscription_payment( $amount_to_charge, $order, $product_id ) {
+            //TODO process_subscription_payment();
+            $result = $this->process_subscription_payment( $order, $amount_to_charge );
+            if ( is_wp_error( $result ) ) { 
+                WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order, $product_id );
+            }
+            else {
+                WC_Subscriptions_Manager::process_subscription_payments_on_order( $order );
+            }
         }
 
         public function process_payment($order_id) {

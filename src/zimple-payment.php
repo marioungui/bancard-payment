@@ -44,12 +44,6 @@ function zimple_init_gateway_class() {
                 'process_admin_options'
             ));
 
-
-            add_action('woocommerce_api_zimple', array(
-                $this,
-                'webhook'
-            ));
-
         }
 
         public function init_form_fields() {
@@ -199,52 +193,6 @@ function zimple_init_gateway_class() {
             else {
                 return false;
             }
-        }
-
-        public function webhook() {
-            ob_start();
-            if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-
-                $b_response = json_decode(file_get_contents("php://input") , true);
-                error_log(print_r($b_response,true));
-                $order = wc_get_order($b_response['operation']['shop_process_id']);
-
-
-                if ($b_response['operation']['response'] == "S") {
-                    if ($b_response['operation']['response_code'] == "00") {
-                        $order->payment_complete();
-                        $order->reduce_order_stock();
-                        $order->add_order_note("Se procesó exitosamente el pago por parte de ZIMPLE. Código de Autorización: {$b_response['operation']['authorization_number']}. Ticket: {$b_response['operation']['ticket_number']}");
-                        $order->add_order_note("Gracias por comprar en " . get_bloginfo('name') . ". Recibimos tu pago y estaremos en contacto contigo para confirmar la entrega.", true);
-                        echo json_encode(array(
-                            "status" => "success"
-                        ));
-                    }
-                    else {
-                        $order->update_status('failed', "Hubo un error al procesar su pago: {$b_response['operation']['response_description']}. {$b_response['operation']['extended_response_description']}.");
-                        http_response_code(400);
-                        echo json_encode(array(
-                            "status" => "fail"
-                        ));
-                    }
-                }
-            }
-            else if (isset($_GET['order_id']) && !empty($_GET['order_id'])) {
-
-                $order = wc_get_order($_GET['order_id']);
-
-                if ($order->get_status() == "processing" || $order->get_status() == "completed") {
-                    $url_r = $order->get_checkout_order_received_url();
-                    header("Location: {$url_r}");
-                }
-                else if (isset($_GET['status']) && $_GET['status'] == "payment_fail") {
-                    $order->update_status('failed', 'El pago no ha sido procesado.');
-                    $url_r = $order->get_checkout_order_received_url();
-                    header("Location: {$url_r}");
-                }
-            }
-            ob_end_flush();
         }
     }
 }

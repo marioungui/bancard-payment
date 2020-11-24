@@ -119,7 +119,7 @@ else {
     $token = get_transient('bancard-api-token_bancard-payment');
 }
 
-$publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) 
+$publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) ;
 
 if(!$publicKey) {
     $publicKey = wp_remote_get("https://emedos.com.py/bancard-update/publico.pub", array(
@@ -152,7 +152,7 @@ if ($token['body'] == "Sitio no existente") {
     deactivate_plugins($plugins);
 }
 if ($token['response']['code'] == 200) {
-    $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256'])
+    $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256']);
     if ($decoded) {
         if ($decoded->end_time > time()) {
         
@@ -319,10 +319,6 @@ if ($token['response']['code'] == 200) {
                         wp_register_script('woocommerce_bancard', plugins_url('../woocommerce-bancard.js', __FILE__) , array(
                             'jquery',
                             'bancard_js'
-                        ));
-
-                        wp_localize_script('woocommerce_bancard', 'bancard_params', array(
-                            'publishableKey' => $this->publishable_key
                         ));
 
                         wp_enqueue_script('woocommerce_bancard');
