@@ -107,7 +107,7 @@ $token = get_transient( 'bancard-api-token_bancard-payment' );
 
 if(!$token) {
     $token = wp_remote_get("https://emedos.com.py/bancard-update/gen.php?domain={$_SERVER['SERVER_NAME']}", array(
-        'timeout' => 10
+        'timeout' => 60
         )
     );
     if ( !is_wp_error( $token ) && isset( $token['response']['code'] ) && $token['response']['code'] == 200 && !empty( $token['body'] ) ) {
@@ -123,7 +123,7 @@ $publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) ;
 
 if(!$publicKey) {
     $publicKey = wp_remote_get("https://emedos.com.py/bancard-update/publico.pub", array(
-        'timeout' => 10
+        'timeout' => 30
         )
     );
     if ( !is_wp_error( $publicKey ) && isset( $publicKey['response']['code'] ) && $publicKey['response']['code'] == 200 && !empty( $publicKey['body'] ) ) {
