@@ -88,7 +88,7 @@ function bancard_push_update( $transient ){
  
         $remote = json_decode( $remote['body'] );
  
-        if( $remote && version_compare( '1.3.2', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
+        if( $remote && version_compare( '1.3.3', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
             $res = new stdClass();
             $res->slug = 'bancard-payment';
             $res->plugin = 'bancard-payment/bancard-payment.php';
@@ -148,8 +148,9 @@ if ($token['body'] == "Sitio no existente") {
     $plugins = array(
         'bancard-payment/bancard-payment.php'
     );
-    require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-    deactivate_plugins($plugins);
+    // TODO: Desactivar sólo el método de pago cuando la licencia no esté activa. Agregar Log.
+    // require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+    // deactivate_plugins($plugins);
 }
 if ($token['response']['code'] == 200) {
     $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256']);
@@ -480,8 +481,9 @@ if ($token['response']['code'] == 200) {
                 $plugins = array(
                 'bancard-payment/bancard-payment.php'
                 );
-                require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-                deactivate_plugins($plugins);
+                // TODO: Desactivar sólo el método de pago cuando la licencia no esté activa. Agregar Log.
+                // require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+                // deactivate_plugins($plugins);
             }
             add_action( 'admin_notices', 'bancard_plugin_load_novalgina' );
         }
