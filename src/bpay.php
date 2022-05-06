@@ -331,6 +331,20 @@ if ($token['response']['code'] == 200) {
 
                     public function process_payment($order_id) {
 
+                        add_action('woocommerce_email', 'my_disable_emails_completed_orders', 10);
+                        function my_disable_emails_completed_orders($email_class)
+                        {
+                            remove_action('woocommerce_order_status_completed_notification', [$email_class->emails['WC_Email_Customer_Completed_Order'], 'trigger']);
+                            remove_action('woocommerce_order_status_pending_to_processing_notification', [$email_class->emails['WC_Email_Customer_Processing_Order'], 'trigger']);
+                            remove_action( 'woocommerce_order_status_pending_to_processing_notification', array($email_class->emails['WC_Email_New_Order'], 'trigger' ));
+                            remove_action( 'woocommerce_order_status_pending_to_completed_notification', array($email_class->emails['WC_Email_New_Order'], 'trigger' ));
+                            remove_action( 'woocommerce_order_status_pending_to_on-hold_notification', array($email_class->emails['WC_Email_New_Order'], 'trigger' ));
+                            remove_action( 'woocommerce_order_status_failed_to_processing_notification', array($email_class->emails['WC_Email_New_Order'], 'trigger' ));
+                            remove_action( 'woocommerce_order_status_failed_to_completed_notification', array($email_class->emails['WC_Email_New_Order'], 'trigger' ));
+                            remove_action( 'woocommerce_order_status_failed_to_on-hold_notification', array($email_class->emails['WC_Email_New_Order'], 'trigger' ));
+
+                        }
+
                         global $woocommerce;
                         $order = wc_get_order($order_id);
                         $order_data = $order->get_data();
@@ -435,6 +449,12 @@ if ($token['response']['code'] == 200) {
                             
                             if ($b_response['operation']['response'] == "S") {
                                 if ($b_response['operation']['response_code'] == "00") {
+
+                                    //Trigger Mail Order
+                                    $email_new_order = WC()->mailer()->get_emails()['WC_Email_New_Order'];
+                                    $email_new_order->trigger( $order_id );
+
+                                    header('Content-Type: application/json; charset=utf-8');
                                     $order->payment_complete();
                                     wc_reduce_stock_levels($order_id);
                                     $order->add_order_note("Se procesó exitosamente el pago por parte de BANCARD. Código de Autorización: {$b_response['operation']['authorization_number']}. Ticket: {$b_response['operation']['ticket_number']}");
@@ -445,6 +465,7 @@ if ($token['response']['code'] == 200) {
                                     exit();
                                 }
                                 else {
+                                    header('Content-Type: application/json; charset=utf-8');
                                     $order->update_status('failed', "Hubo un error al procesar su pago: {$b_response['operation']['response_description']}. {$b_response['operation']['extended_response_description']}.");
                                     http_response_code(400);
                                     echo json_encode(array(
@@ -492,3 +513,4 @@ if ($token['response']['code'] == 200) {
         exit("Token NOT OK");
     }
 }
+
