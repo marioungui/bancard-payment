@@ -18,7 +18,7 @@ Version 1.3
 
 ### Instalación
 
-- Descargar el archivo ZIP (previa autorización de M2 Design)
+- Descargar el archivo ZIP
 - Subir e instalar como plugin en el panel de plugins de WordPress
 - Habilitar los respectivos métodos de pago en WooCommerce -> Ajustes -> Pagos
 - Subir las llaves públicas y privadas del portal de comercios en cada método de pago
