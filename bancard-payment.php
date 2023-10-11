@@ -5,7 +5,7 @@
  * Description: Acepte tarjetas de crédito o débido a través del vPOS 2.0 de Bancard
  * Author: Mario Moreno
  * Author URI: https://emedos.com.py/
- * Version: 1.3.3
+ * Version: 1.3.4
  * Text Domain: bancard-payment
 */
 

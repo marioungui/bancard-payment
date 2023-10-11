@@ -7,6 +7,9 @@
 Aceptá pagos en tu comercio a través de tarjetas de crédito o débito y billetera Zimple.
 
 # Novedades
+Version 1.3.4
+  - Composer Update
+
 Version 1.3.3
   - Bug Fixes.
   - Se revirtió una regresión en la activación de la licencia
