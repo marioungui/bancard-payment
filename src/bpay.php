@@ -88,7 +88,7 @@ function bancard_push_update( $transient ){
  
         $remote = json_decode( $remote['body'] );
  
-        if( $remote && version_compare( '1.3.4', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
+        if( $remote && version_compare( '1.3.4.1', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
             $res = new stdClass();
             $res->slug = 'bancard-payment';
             $res->plugin = 'bancard-payment/bancard-payment.php';
@@ -102,6 +102,7 @@ function bancard_push_update( $transient ){
 }
 
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 $token = get_transient( 'bancard-api-token_bancard-payment' );
 
@@ -153,7 +154,8 @@ if ($token['body'] == "Sitio no existente") {
     // deactivate_plugins($plugins);
 }
 if ($token['response']['code'] == 200) {
-    $decoded = JWT::decode($token['body'], $publicKey['body'], ['RS256']);
+    $key = new Key($publicKey['body'],'HS256');
+    $decoded = JWT::decode($token['body'], $key);
     if ($decoded) {
         if ($decoded->end_time > time()) {
         

@@ -7,6 +7,9 @@
 Aceptá pagos en tu comercio a través de tarjetas de crédito o débito y billetera Zimple.
 
 # Novedades
+Version 1.3.4.1
+  - Error fix
+
 Version 1.3.4
   - Composer Update
 
