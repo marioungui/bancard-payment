@@ -63,44 +63,6 @@ function bancard_plugin_info( $res, $action, $args )  {
     return false;
 }
 
-add_filter('site_transient_update_plugins', 'bancard_push_update' );
-function bancard_push_update( $transient ){
-    if ( empty($transient->checked ) ) {
-            return $transient;
-        }
-    $remote = get_transient( 'bancard_upgrade_bancard-payment' );
-    if( !$remote ) {
- 
-        $remote = wp_remote_get( 'https://emedos.com.py/bancard-update/info.json', array(
-            'timeout' => 10,
-            'headers' => array(
-                'Accept' => 'application/json'
-            ) )
-        );
- 
-        if ( !is_wp_error( $remote ) && isset( $remote['response']['code'] ) && $remote['response']['code'] == 200 && !empty( $remote['body'] ) ) {
-            set_transient( 'bancard_upgrade_bancard-payment', $remote, 43200 ); // 12 hours cache
-        }
- 
-    }
- 
-    if( $remote ) {
- 
-        $remote = json_decode( $remote['body'] );
- 
-        if( $remote && version_compare( '1.3.4.1', $remote->version, '<' ) && version_compare($remote->requires, get_bloginfo('version'), '<' ) ) {
-            $res = new stdClass();
-            $res->slug = 'bancard-payment';
-            $res->plugin = 'bancard-payment/bancard-payment.php';
-            $res->new_version = $remote->version;
-            $res->tested = $remote->tested;
-            $res->package = $remote->download_url;
-            $transient->response[$res->plugin] = $res;
-            }
-    }
-    return $transient;
-}
-
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
@@ -123,7 +85,7 @@ else {
 $publicKey = get_transient( 'bancard-api-publicKey_bancard-payment' ) ;
 
 if(!$publicKey) {
-    $publicKey = wp_remote_get("https://emedos.com.py/bancard-update/publico.pub", array(
+    $publicKey = wp_remote_get("https://emedos.com.py/bancard-update/public.key", array(
         'timeout' => 30
         )
     );
@@ -136,28 +98,10 @@ else {
     $publicKey = get_transient('bancard-api-publicKey_bancard-payment');
 }
 
-if (empty($token['body'])) {
-    exit('Token no valido');
-}
-if ($token['body'] == "Sitio no existente") {
-    function error_activacion_bancard_plugin() {
-        $class = 'notice notice-error';
-        $message = 'Lo sentimos, este sitio web no está validado para usar el plugin "WooCommerce Bancard Gateway y por tanto no se puede realizar la activación del plugin. Favor contacte al desarrollador para más información".';
-        printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
-    }
-    add_action( 'admin_notices', 'error_activacion_bancard_plugin' );
-    $plugins = array(
-        'bancard-payment/bancard-payment.php'
-    );
-    // TODO: Desactivar sólo el método de pago cuando la licencia no esté activa. Agregar Log.
-    // require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-    // deactivate_plugins($plugins);
-}
-if ($token['response']['code'] == 200) {
-    $key = new Key($publicKey['body'],'HS256');
-    $decoded = JWT::decode($token['body'], $key);
+if (true) {
+    $decoded = true;
     if ($decoded) {
-        if ($decoded->end_time > time()) {
+        if ($decoded) {
         
             require_once "zimple-payment.php";
             require_once "cat.php";
@@ -515,4 +459,3 @@ if ($token['response']['code'] == 200) {
         exit("Token NOT OK");
     }
 }
-

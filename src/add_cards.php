@@ -23,6 +23,7 @@ $args = [
 
 $ch = curl_init($url);
 $payload = json_encode($args,JSON_PRETTY_PRINT);
+error_log(print_r($payload,true));
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type:application/json'
@@ -31,7 +32,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 $resultado = json_decode($result,true);
 
-
+error_log(print_r($resultado,true));
 if ($resultado['status'] == "success") {
 
     $script = $Bcatastro->testmode ? plugin_dir_url( __FILE__ )."../bancard-checkout-dev.js" : plugin_dir_url( __FILE__ )."../bancard-checkout.js";
